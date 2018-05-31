@@ -74,15 +74,10 @@
       showDialog(videoKey) {
         this.dialogVisible = true
         this.currentKey = videoKey
-        // let video = this.site + videoKey
-        // if (this.$refs.play.dp.video.currentSrc !== video) {
-        //
-        // }
       },
       handleClose(done) {
-        this.$refs.player.dp.pause()
         done()
-        // this.$refs.player.dp.pause()
+        this.$refs.player.dp.pause()
       }
     },
     components: {
@@ -102,7 +97,7 @@
   .summary
     font-size 16px
     margin 10px 0 20px
-    height 200px
+    height 190px
     overflow hidden
     text-overflow: ellipsis
 

@@ -16,7 +16,7 @@
         </el-tab-pane>
         <el-tab-pane label="同类电影" name="2" class="relative" tag="ul">
           <li class="container" v-for="item in relativeMovies" :key="item._id">
-            <img :src="site + item.posterKey" width="70" height="100">
+            <img :src="site + item.posterKey" width="60" height="90">
             <div class="date-country">
               <h4>{{item.title}}</h4>
               <div>{{pubDate(item.pubdate.date)}} {{item.pubdate.country}}</div>
@@ -101,7 +101,7 @@
           text-align left
           padding 10px
           box-sizing border-box
-          .rate, .tags, .time, .summary
+          .title, .rate, .tags, .time, .summary
             margin-bottom 10px
         .relative
           text-align left
@@ -114,5 +114,7 @@
               margin-right 20px
             .date-country
               flex 1
+              h4
+                margin-bottom 10px
 
 </style>

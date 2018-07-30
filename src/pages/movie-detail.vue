@@ -47,6 +47,7 @@
                   v-for="movie in relativeMovies"
                   :key="movie._id"
                   @click.native="goMovieDetail(movie._id)"
+                  style="cursor: pointer"
                 >
                   <q-item-side>
                     <img :src="movie.poster" width="60" height="90">

@@ -1,4 +1,4 @@
-# quasar-trailer
+# vue-trailer
 
 > A  Vue.js project using quasar-framework
 

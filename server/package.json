@@ -1,0 +1,22 @@
+{
+  "name": "trailer-server",
+  "version": "1.0.0",
+  "description": "A server for vue-trailer",
+  "main": "app.js",
+  "author": "Hale",
+  "license": "MIT",
+  "scripts": {
+    "serve": "node app.js"
+  },
+  "dependencies": {
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.2",
+    "koa-static": "^5.0.0",
+    "koa2-connect-history-api-fallback": "^0.0.6",
+    "mongoose": "^5.2.5",
+    "utility": "^1.14.0"
+  }
+}

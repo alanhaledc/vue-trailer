@@ -1,27 +1,25 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import Home from 'views/home'
-import MovieDetail from 'views/movie-detail'
-import MovieTable from 'views/movie-table'
+import VueRouter from 'vue-router'
 
-Vue.use(Router)
+import routes from './routes'
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: Home
-    },
-    {
-      path: '/movie/:id',
-      name: 'MovieDetail',
-      component: MovieDetail
-    },
-    {
-      path: '/admin/movie/list',
-      name: 'MovieTable',
-      component: MovieTable
-    }
-  ]
-})
+Vue.use(VueRouter)
+
+/*
+ * If not building with SSR mode, you can
+ * directly export the Router instantiation
+ */
+
+export default function (/* { store, ssrContext } */) {
+  const Router = new VueRouter({
+    scrollBehavior: () => ({ y: 0 }),
+    routes,
+
+    // Leave these as is and change from quasar.conf.js instead!
+    // quasar.conf.js -> build -> vueRouterMode
+    mode: process.env.VUE_ROUTER_MODE,
+    base: process.env.VUE_ROUTER_BASE
+  })
+
+  return Router
+}

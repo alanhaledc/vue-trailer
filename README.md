@@ -1,21 +1,35 @@
-# vue-trailer
+# quasar-trailer
 
-> A Vue.js project
+> A  Vue.js project using quasar-framework
 
-## Build Setup
+### 技术栈
 
-``` bash
-# install dependencies
-npm install
+**vue全家桶 + quasar-cli + koa + mongoDB**
 
-# serve with hot reload at localhost:8080
-npm run dev
+### 项目结构
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+```bash
+|—— src              前端相关代码
+|—— server           后端相关代码
+...                  其他
+|—— quasar.conf.js   quasar框架主要配置
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+### 说明
+
+- 灵感来源于一个koa2课程，自己用 vue 和 quasar-cli  (一个非常丰富的UI组件库)重构了前端页面，并简化了后端koa2代码。
+- 这是一个电影预告片网站。[演示地址](http://trailer.haledeng.com)
+
+### 安装和启动
+
+```b
+# 安装前端依赖和启动前端服务
+yarn install && quasar dev
+
+# 安装后端依赖和启动后端服务
+cd server
+yarn install && yarn serve
+
+# 前端生产环境代码打包
+quasar build
+```

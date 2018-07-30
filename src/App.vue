@@ -1,11 +1,13 @@
 <template>
-  <div id="app">
+  <div id="q-app">
     <router-view/>
   </div>
 </template>
 
 <script>
-export default {}
+  export default {
+    name: 'App'
+  }
 </script>
 
 <style>

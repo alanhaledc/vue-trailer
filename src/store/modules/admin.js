@@ -13,15 +13,7 @@ const mutations = {
 }
 const actions = {
   login: ({commit}, {email, password}) => {
-    return new Promise((resolve, reject) => {
-      api.login(email, password)
-        .then(data => {
-          resolve(data)
-        })
-        .catch(err => {
-          reject(err)
-        })
-    })
+    return api.login(email, password)
   },
   getAdminMovies: ({commit}) => {
     api.getAdminMovies()

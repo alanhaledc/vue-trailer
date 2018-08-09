@@ -48,7 +48,7 @@
     data() {
       return {
         columns: [
-          {name: 'poster', label: '海报', field: 'name'},
+          {name: 'poster', label: '海报', field: 'poster'},
           {name: 'title', label: '名称', field: 'title'},
           {
             name: 'pubdate',

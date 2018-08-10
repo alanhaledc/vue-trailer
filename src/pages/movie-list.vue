@@ -1,28 +1,30 @@
 <template>
   <q-page padding>
     <div class="row">
-      <q-card
-        class="col-lg-3 col-md-6 col-sm-6 col-xs-12 q-mb-md"
+      <q-item
         v-for="movie in movieList"
         :key="movie._id"
+        class="col-lg-3 col-md-6 col-sm-6 col-xs-12 q-mb-md"
       >
-        <q-card-media @click.native="playVideo(movie.url)" style="cursor: pointer">
-          <img :src="movie.poster" height="650">
-        </q-card-media>
-        <q-card-title>
-          {{movie.title}}
-          <span slot="subtitle">{{movie.subtitle}}</span>
-        </q-card-title>
-        <q-card-main style="height: 150px; overflow: hidden">
-          {{movie.summary}}
-        </q-card-main>
-        <q-card-separator></q-card-separator>
-        <q-card-actions>
-          <q-btn icon="history">{{movie.update}}前更新</q-btn>
-          <q-btn icon="start">{{movie.rate}}分</q-btn>
-          <q-btn round @click.native="goDetail(movie._id)">GO</q-btn>
-        </q-card-actions>
-      </q-card>
+        <q-card>
+          <q-card-media @click.native="playVideo(movie.url)" style="cursor: pointer">
+            <img :src="movie.poster" height="600">
+          </q-card-media>
+          <q-card-title>
+            {{movie.title}}
+            <span slot="subtitle">{{movie.subtitle}}</span>
+          </q-card-title>
+          <q-card-main style="height: 150px; overflow: hidden">
+            {{movie.summary}}
+          </q-card-main>
+          <q-card-separator></q-card-separator>
+          <q-card-actions>
+            <q-btn icon="history">{{movie.update}}前更新</q-btn>
+            <q-btn icon="start">{{movie.rate}}分</q-btn>
+            <q-btn round @click.native="goDetail(movie._id)">GO</q-btn>
+          </q-card-actions>
+        </q-card>
+      </q-item>
     </div>
     <q-modal
       v-model="opened"

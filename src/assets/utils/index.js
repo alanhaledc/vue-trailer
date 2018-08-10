@@ -6,7 +6,7 @@ export const createError = (code, msg) => {
   return error
 }
 
-const SITE = 'http://p9bh93etu.bkt.clouddn.com/'
+const SITE = 'http://qiniu.haledeng.com/'
 
 export const dateDiff = time => {
   const unit = 'days'

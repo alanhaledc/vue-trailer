@@ -14,14 +14,14 @@
             {{movie.title}}
             <span slot="subtitle">{{movie.subtitle}}</span>
           </q-card-title>
-          <q-card-main style="height: 150px; overflow: hidden">
+          <q-card-main style="height: 155px; overflow: hidden; text-overflow: ellipsis">
             {{movie.summary}}
           </q-card-main>
           <q-card-separator></q-card-separator>
           <q-card-actions>
-            <q-btn icon="history">{{movie.update}}前更新</q-btn>
-            <q-btn icon="start">{{movie.rate}}分</q-btn>
-            <q-btn round @click.native="goDetail(movie._id)">GO</q-btn>
+            <q-btn icon="history" flat color="positive">{{movie.update}}前更新</q-btn>
+            <q-btn icon="star" flat color="pink">{{movie.rate}}分</q-btn>
+            <q-btn rounded flat color="primary" @click.native="goDetail(movie._id)" icon="details">详情</q-btn>
           </q-card-actions>
         </q-card>
       </q-item>

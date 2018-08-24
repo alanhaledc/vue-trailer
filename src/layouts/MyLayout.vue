@@ -84,7 +84,7 @@
     },
     computed: {
       key() {
-        return this.$route.path.replace(/\//g, '_')
+        return this.$route.path
       }
     },
     methods: {
@@ -93,6 +93,7 @@
       },
       goYear(year) {
         this.$router.push(`/year/${year}`)
+        this.selectTab = 'tab-1'
       }
     }
   }

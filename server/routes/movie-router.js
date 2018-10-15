@@ -12,9 +12,11 @@ router.get('/list', async ctx => {
     const {type, year} = ctx.query
     let query = {}
     if (type) {
+      // { movieTypes: $in: [type] }
       query.movieTypes = {$in: [type]}
     }
     if (year) {
+      // { year: year }
       query.year = year
     }
     const movies = await Movie.find(query)

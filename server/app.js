@@ -7,10 +7,10 @@ const session = require('koa-session')
 const path = require('path')
 
 const routers = require('./routes')
-require('./db/index')
+require('./database/index')
 
 const CONFIG = {
-  key: 'koa:trailer',
+  key: 'trailer-session',
   maxAge: 1000 * 60 * 60 * 24,
   overwrite: true,
   httpOnly: false,
@@ -32,5 +32,5 @@ const HOST = process.env.HOST || '0.0.0.0'
 const PORT = process.env.PORT || 9093
 
 app.listen(PORT, HOST, () => {
-  console.log(`Server started at ${HOST}:${PORT} at ${new Date()}`)
+  console.log(`Server running at http://${HOST}:${PORT}!`)
 })

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const User = require('./models/user')
-const {md5Pwd} = require('../utils')
+const { md5Pwd } = require('../utils')
 
 const DB_URL = 'mongodb://127.0.0.1:27017/trailer'
 
@@ -22,17 +22,17 @@ connection.on('disconnected', () => {
 
 const initAdmin = async () => {
   let user = await User.findOne({
-    username: 'Hale'
+    username: 'visitor'
   })
   if (!user) {
-    const user = new User({
-      username: 'Hale',
-      email: 'admin@qq.com',
+    const visitor = new User({
+      username: 'visitor',
+      email: 'test@test.com',
       password: md5Pwd('123456'),
-      role: 'admin'
+      role: 'visitor'
     })
-
-    await user.save()
+    await visitor.save()
+    console.log('初始化用户成功！')
   }
 }
 

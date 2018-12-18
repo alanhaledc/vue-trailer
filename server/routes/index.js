@@ -1,6 +1,6 @@
 const Router = require('koa-router')
-const adminRouter = require('./admin-router')
-const movieRouter = require('./movie-router')
+const adminRouter = require('./admin')
+const movieRouter = require('./movie')
 
 const router = new Router()
 

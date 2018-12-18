@@ -1,29 +1,28 @@
 const Router = require('koa-router')
-const Movie = require('../db/models/movie')
+const Movie = require('../database/models/movie')
 
-const {successResponse, failResponse} = require('../utils')
+const { successResponse, failureResponse } = require('../utils')
 
 const router = new Router({
-  prefix: '/movie'
+  prefix: '/api/movie'
 })
 
 router.get('/list', async ctx => {
   try {
-    const {type, year} = ctx.query
+    const { type, year } = ctx.query
     let query = {}
     if (type) {
       // { movieTypes: $in: [type] }
-      query.movieTypes = {$in: [type]}
+      query.movieTypes = { $in: [type] }
     }
     if (year) {
       // { year: year }
       query.year = year
     }
     const movies = await Movie.find(query)
-    ctx.body = successResponse(movies)
+    successResponse(ctx, movies)
   } catch (err) {
-    ctx.status = 500
-    ctx.body = failResponse(err.message)
+    failureResponse(ctx, 500, err.message)
   }
 })
 
@@ -38,13 +37,12 @@ router.get('/:id', async ctx => {
         $in: movie.movieTypes
       }
     })
-    ctx.body = successResponse({
+    successResponse(ctx, {
       movie,
       relativeMovies
     })
   } catch (err) {
-    ctx.status = 500
-    ctx.body = failResponse(err.message)
+    failureResponse(ctx, 500, err.message)
   }
 })
 

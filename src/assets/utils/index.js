@@ -1,4 +1,4 @@
-import {date} from 'quasar'
+import { date } from 'quasar'
 
 export const createError = (code, msg) => {
   const error = new Error(msg)

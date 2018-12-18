@@ -1,6 +1,6 @@
 import api from '../../assets/api'
 
-import {normalizeMovieDetail, normalizeMovies, normalizeRelativeMovies} from '../../assets/utils'
+import { normalizeMovieDetail, normalizeMovies, normalizeRelativeMovies } from '../../assets/utils'
 
 const state = {
   movieList: [],
@@ -18,20 +18,20 @@ const mutations = {
   setRelativeMovies: (state, list) => (state.relativeMovies = list)
 }
 const actions = {
-  getMovies: ({commit}, {type, year}) => {
+  getMovies: ({ commit }, { type, year }) => {
     api.getMovies(type, year)
-      .then(data => {
-        if (data.status === 0) {
-          commit('setMovieList', normalizeMovies(data.result))
+      .then(res => {
+        if (res.data.success) {
+          commit('setMovieList', normalizeMovies(res.data.data))
         }
       })
   },
-  getMovieDetail: ({commit}, id) => {
+  getMovieDetail: ({ commit }, id) => {
     api.getMovieDetail(id)
-      .then(data => {
-        if (data.status === 0) {
-          commit('setMovieDetail', normalizeMovieDetail(data.result.movie))
-          commit('setRelativeMovies', normalizeRelativeMovies(data.result.relativeMovies))
+      .then(res => {
+        if (res.data.success) {
+          commit('setMovieDetail', normalizeMovieDetail(res.data.data.movie))
+          commit('setRelativeMovies', normalizeRelativeMovies(res.data.data.relativeMovies))
         }
       })
   }

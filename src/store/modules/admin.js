@@ -1,6 +1,6 @@
 import api from '../../assets/api'
 
-import {normalizeAdminMovies} from '../../assets/utils'
+import { normalizeAdminMovies } from '../../assets/utils'
 
 const state = {
   adminMovieList: []
@@ -12,24 +12,30 @@ const mutations = {
   setAdminMovieList: (state, list) => (state.adminMovieList = list)
 }
 const actions = {
-  login: ({commit}, {email, password}) => {
+  login: ({ commit }, { email, password }) => {
     return api.login(email, password)
   },
-  getAdminMovies: ({commit}) => {
+  logout: ({ commit }) => {
+    return api.logout()
+  },
+  getAdminMovies: ({ commit }) => {
     api.getAdminMovies()
-      .then(data => {
-        if (data.status === 0) {
-          commit('setAdminMovieList', normalizeAdminMovies(data.result))
+      .then(res => {
+        if (res.data.success) {
+          commit('setAdminMovieList', normalizeAdminMovies(res.data.data))
         }
       })
   },
-  deleteMovie: ({commit}, id) => {
-    api.deleteMovie(id)
-      .then(data => {
-        if (data.status === 0) {
-          commit('setAdminMovieList', normalizeAdminMovies(data.result))
-        }
-      })
+  deleteMovie: ({ commit }, id) => {
+    return new Promise((resolve, reject) => {
+      api.deleteMovie(id)
+        .then(res => {
+          if (res.data.success) {
+            commit('setAdminMovieList', normalizeAdminMovies(res.data.data))
+          }
+          resolve(res)
+        })
+    })
   }
 }
 

@@ -37,80 +37,80 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import 'dplayer/dist/DPlayer.min.css'
-  import DPlayer from 'dplayer'
+import { mapGetters, mapActions } from 'vuex'
+import 'dplayer/dist/DPlayer.min.css'
+import DPlayer from 'dplayer'
 
-  export default {
-    name: 'MovieList',
-    data() {
-      return {
-        opened: false,
-        category: '',
-        year: ''
+export default {
+  name: 'MovieList',
+  data() {
+    return {
+      opened: false,
+      category: '',
+      year: ''
+    }
+  },
+  computed: {
+    ...mapGetters('movie', ['movieList'])
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.category = to.params.category
+    this.year = to.params.year
+    this.getMovies({
+      type: this.category === '全部' ? null : this.category,
+      year: this.year
+    })
+    next()
+  },
+  created() {
+    this.category = this.$route.params.category
+    this.year = this.$route.params.year
+    this.getMovies({
+      type: this.category === '全部' ? '' : this.category,
+      year: this.year
+    })
+  },
+  methods: {
+    playVideo(url) {
+      this.opened = true
+      if (!this.player) {
+        setTimeout(() => {
+          this.player = new DPlayer({
+            container: document.getElementById('dplayer'),
+            screenshot: true,
+            autoplay: true,
+            video: {
+              url: url
+            }
+          })
+        }, 200)
+      } else {
+        if (this.player.video.currentSrc !== url) {
+          this.player.switchVideo({
+            url: url,
+            autoplay: true,
+            type: 'auto'
+          })
+        }
+        this.player.play()
       }
     },
-    computed: {
-      ...mapGetters('movie', ['movieList'])
+    modalShow() {
+      if (this.player) {
+        this.player.play()
+      }
     },
-    beforeRouteUpdate(to, from, next) {
-      this.category = to.params.category
-      this.year = to.params.year
-      this.getMovies({
-        type: this.category === '全部' ? null : this.category,
-        year: this.year
-      })
-      next()
+    modalHide() {
+      if (this.player) {
+        this.player.pause()
+      }
     },
-    created() {
-      this.category = this.$route.params.category
-      this.year = this.$route.params.year
-      this.getMovies({
-        type: this.category === '全部' ? '' : this.category,
-        year: this.year
-      })
+    goDetail(id) {
+      this.$router.push(`/detail/${id}`)
     },
-    methods: {
-      playVideo(url) {
-        this.opened = true
-        if (!this.player) {
-          setTimeout(() => {
-            this.player = new DPlayer({
-              container: document.getElementById('dplayer'),
-              screenshot: true,
-              autoplay: true,
-              video: {
-                url: url
-              }
-            })
-          }, 200)
-        } else {
-          if (this.player.video.currentSrc !== url) {
-            this.player.switchVideo({
-              url: url,
-              autoplay: true,
-              type: 'auto'
-            })
-          }
-          this.player.play()
-        }
-      },
-      modalShow() {
-        if (this.player) {
-          this.player.play()
-        }
-      },
-      modalHide() {
-        if (this.player) {
-          this.player.pause()
-        }
-      },
-      goDetail(id) {
-        this.$router.push(`/detail/${id}`)
-      },
-      ...mapActions('movie', ['getMovies'])
-    }
+    ...mapActions('movie', ['getMovies'])
   }
+}
 </script>
 
 <style>

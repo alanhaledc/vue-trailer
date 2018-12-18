@@ -1,5 +1,9 @@
 <template>
   <q-layout>
+    <q-toolbar>
+      <q-toolbar-title>电影后台管理</q-toolbar-title>
+      <q-btn @click.native="handleLogout" color="teal" rounded>退出</q-btn>
+    </q-toolbar>
     <q-page-container>
       <q-page padding>
         <q-table
@@ -41,85 +45,108 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
-  export default {
-    name: 'MovieTab',
-    data() {
-      return {
-        columns: [
-          {name: 'poster', label: '海报', field: 'poster'},
-          {name: 'title', label: '名称', field: 'title'},
-          {
-            name: 'pubdate',
-            label: '上映时间',
-            field: 'pubdate',
-            sortable: true,
-            sort: (a, b) => parseFloat(a, 10) - parseFloat(b, 10)
-          },
-          {
-            name: 'rate',
-            label: '评分',
-            field: 'rate',
-            sortable: true,
-            sort: (a, b) => parseFloat(a, 10) - parseFloat(b, 10)
-          },
-          {
-            name: 'update',
-            label: '更新时间',
-            field: 'update',
-            sortable: true,
-            sort: (a, b) => parseFloat(a, 10) - parseFloat(b, 10)
-          },
+export default {
+  name: 'MovieTab',
+  data() {
+    return {
+      columns: [
+        { name: 'poster', label: '海报', field: 'poster' },
+        { name: 'title', label: '名称', field: 'title' },
+        {
+          name: 'pubdate',
+          label: '上映时间',
+          field: 'pubdate',
+          sortable: true,
+          sort: (a, b) => parseFloat(a, 10) - parseFloat(b, 10)
+        },
+        {
+          name: 'rate',
+          label: '评分',
+          field: 'rate',
+          sortable: true,
+          sort: (a, b) => parseFloat(a, 10) - parseFloat(b, 10)
+        },
+        {
+          name: 'update',
+          label: '更新时间',
+          field: 'update',
+          sortable: true,
+          sort: (a, b) => parseFloat(a, 10) - parseFloat(b, 10)
+        },
 
-          {name: 'id', label: '电影id', field: 'id'},
-          {name: 'type', label: '类型', field: 'type'},
-          {name: 'tags', label: '标签', field: 'tags'},
-          {name: 'detail', label: '详情', field: 'detail'},
-          {name: 'delete', label: '删除', field: 'delete'}
-        ],
-        selected: [
-          {name: '口袋宇宙'}
-        ]
-      }
-    },
-    created() {
-      this.getAdminMovies()
-    },
-    computed: {
-      ...mapGetters('admin', ['adminMovieList'])
-    },
-    methods: {
-      goDetail(id) {
-        this.$router.push(`/detail/${id}`)
-      },
-      deleteItem(id) {
-        this.$q.dialog({
-          title: '警告',
-          message: '确定要删除吗？',
-          cancel: '取消',
-          ok: '确认',
-          color: 'negative'
-        })
-          .then(() => {
-            this.deleteMovie(id)
-            this.$q.notify({
-              message: '你删除了一部电影',
-              color: 'negative',
-              icon: 'done'
-            })
-          })
-          .catch(() => {
-            this.$q.notify({
-              message: '已取消',
-              color: 'positive',
-              icon: 'done'
-            })
-          })
-      },
-      ...mapActions('admin', ['getAdminMovies', 'deleteMovie'])
+        { name: 'id', label: '电影id', field: 'id' },
+        { name: 'type', label: '类型', field: 'type' },
+        { name: 'tags', label: '标签', field: 'tags' },
+        { name: 'detail', label: '详情', field: 'detail' },
+        { name: 'delete', label: '删除', field: 'delete' }
+      ],
+      selected: [
+        { name: '口袋宇宙' }
+      ]
     }
+  },
+  created() {
+    this.getAdminMovies()
+  },
+  computed: {
+    ...mapGetters('admin', ['adminMovieList'])
+  },
+  methods: {
+    goDetail(id) {
+      this.$router.push(`/detail/${id}`)
+    },
+    handleLogout() {
+      this.logout()
+        .then(res => {
+          if (res.data.success) {
+            this.$router.push('/')
+          }
+        })
+    },
+    deleteItem(id) {
+      this.$q.dialog({
+        title: '警告',
+        message: '确定要删除吗？',
+        cancel: '取消',
+        ok: '确认',
+        color: 'negative'
+      })
+        .then(() => {
+          this.deleteMovie(id)
+            .then(res => {
+              if (res.data.success) {
+                console.log(res)
+                console.log(res.data.success)
+                this.$q.notify({
+                  message: '你删除了一部电影',
+                  color: 'positive',
+                  icon: 'done',
+                  position: 'top'
+                })
+              } else {
+                this.$q.notify({
+                  message: '你暂无权限删除电影',
+                  color: 'warning',
+                  icon: 'error',
+                  position: 'top'
+                })
+              }
+            })
+        })
+        .catch(() => {
+          this.$q.notify({
+            message: '已取消',
+            color: 'positive',
+            icon: 'done',
+            position: 'top'
+          })
+        })
+    },
+    ...mapActions('admin', ['getAdminMovies', 'deleteMovie', 'logout'])
   }
+}
 </script>
 
 <style>

@@ -20,7 +20,7 @@ module.exports = function (ctx) {
     supportIE: true,
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
+      vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
@@ -36,13 +36,10 @@ module.exports = function (ctx) {
     },
     devServer: {
       // https: true,
-      // port: 8080,
+      port: 8080,
       open: false, // opens browser window automatically
       proxy: {
-        '/movie/*': {
-          target: 'http://127.0.0.1:9093'
-        },
-        '/admin/*': {
+        '/api/**': {
           target: 'http://127.0.0.1:9093'
         }
       }
@@ -88,7 +85,8 @@ module.exports = function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify',
-        'Dialog'
+        'Dialog',
+        'Cookies'
       ]
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       // i18n: 'de' // Quasar language

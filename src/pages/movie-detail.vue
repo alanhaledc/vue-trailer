@@ -67,68 +67,63 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex'
-  import 'dplayer/dist/DPlayer.min.css'
-  import DPlayer from 'dplayer'
+import { mapActions, mapGetters } from 'vuex'
+import 'dplayer/dist/DPlayer.min.css'
+import DPlayer from 'dplayer'
 
-  export default {
-    name: 'MovieDetail',
-    // props: {
-    //   id: String
-    // },
-    data() {
-      return {
-        selectTab: 'tab-1'
-      }
-    },
-    computed: {
-      ...mapGetters('movie', ['movieDetail', 'relativeMovies'])
-    },
-    /**
-     * 同页面切换重新获取数据，并且重置播放器
-     * @param to
-     * @param from
-     * @param next
-     */
-    beforeRouteUpdate(to, from, next) {
-      this.id = to.params.id
-      this.getMovieDetail(this.id)
-      this.setPlayer()
-      next()
-    },
-    created() {
-      this.id = this.$route.params.id
-      this.getMovieDetail(this.id)
-      this.setPlayer()
-    },
-    methods: {
-      goHome() {
-        this.$router.push('/')
-      },
-      goMovieDetail(id) {
-        this.$router.push(`/detail/${id}`)
-      },
-      setPlayer() {
-        setTimeout(() => {
-          this.player = new DPlayer({
-            container: document.getElementById('video-player'),
-            screenshot: true,
-            video: {
-              url: this.movieDetail.url,
-              pic: this.movieDetail.pic,
-              thumbnails: this.movieDetail.pic
-            }
-          })
-        }, 200)
-      },
-      ...mapActions('movie', ['getMovieDetail'])
+export default {
+  name: 'MovieDetail',
+  // props: {
+  //   id: String
+  // },
+  data() {
+    return {
+      selectTab: 'tab-1'
     }
-    // watch: {
-    //   'id'(newId) {
-    //     this.getMovieDetail(newId)
-    //   }
-    // }
+  },
+  computed: {
+    ...mapGetters('movie', ['movieDetail', 'relativeMovies'])
+  },
+  /**
+   * 同页面切换重新获取数据，并且重置播放器
+   * @param to
+   * @param from
+   * @param next
+   */
+  beforeRouteUpdate(to, from, next) {
+    this.id = to.params.id
+    this.getMovieDetail(this.id)
+    this.setPlayer()
+    next()
+  },
+  created() {
+    this.id = this.$route.params.id
+    this.getMovieDetail(this.id)
+    this.setPlayer()
+  },
+  methods: {
+    goHome() {
+      this.$router.push('/')
+    },
+    goMovieDetail(id) {
+      this.$router.push(`/detail/${id}`)
+    },
+    setPlayer() {
+      setTimeout(() => {
+        this.player = new DPlayer({
+          container: document.getElementById('video-player'),
+          screenshot: true,
+          video: {
+            url: this.movieDetail.url,
+            pic: this.movieDetail.pic,
+            thumbnails: this.movieDetail.pic
+          }
+        })
+      }, 200)
+    },
+    ...mapActions('movie', ['getMovieDetail'])
   }
+}
 </script>
 
 <style>

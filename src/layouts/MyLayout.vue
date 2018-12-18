@@ -53,7 +53,9 @@
           <q-item-side icon="history"></q-item-side>
           <q-item-main>{{year}}年上映</q-item-main>
         </q-item>
-
+        <q-item class="q-mt-md">
+          <q-btn icon-right="send" color="teal" @click="$router.push('/admin/login')">后台登陆</q-btn>
+        </q-item>
       </q-list>
     </q-layout-drawer>
     <q-page-container>
@@ -70,33 +72,33 @@
 </template>
 
 <script>
-  export default {
-    name: 'MyLayout',
-    data() {
-      return {
-        leftDrawerOpen: this.$q.platform.is.desktop,
-        years: ['2018', '2019', '2020'],
-        categories: [
-          '全部', '动作', '科幻', '惊悚', '喜剧', '冒险', '剧情', '奇幻', '古装', '犯罪', '动画', '爱情', '悬疑', '武侠', '运动'
-        ],
-        selectTab: 'tab-1'
-      }
+export default {
+  name: 'MyLayout',
+  data() {
+    return {
+      leftDrawerOpen: this.$q.platform.is.desktop,
+      years: ['2018', '2019', '2020'],
+      categories: [
+        '全部', '动作', '科幻', '惊悚', '喜剧', '冒险', '剧情', '奇幻', '古装', '犯罪', '动画', '爱情', '悬疑', '武侠', '运动'
+      ],
+      selectTab: 'tab-1'
+    }
+  },
+  computed: {
+    key() {
+      return this.$route.path
+    }
+  },
+  methods: {
+    goCategory(category) {
+      this.$router.push(`/list/${category}`)
     },
-    computed: {
-      key() {
-        return this.$route.path
-      }
-    },
-    methods: {
-      goCategory(category) {
-        this.$router.push(`/list/${category}`)
-      },
-      goYear(year) {
-        this.$router.push(`/year/${year}`)
-        this.selectTab = 'tab-1'
-      }
+    goYear(year) {
+      this.$router.push(`/year/${year}`)
+      this.selectTab = 'tab-1'
     }
   }
+}
 </script>
 
 <style>

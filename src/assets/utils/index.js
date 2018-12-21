@@ -1,11 +1,5 @@
 import { date } from 'quasar'
 
-export const createError = (code, msg) => {
-  const error = new Error(msg)
-  error.code = code
-  return error
-}
-
 const SITE = 'http://qiniu.haledeng.com/'
 
 export const dateDiff = time => {
@@ -35,6 +29,7 @@ export const normalizeMovies = data => {
     }
     movies.push(movie)
   })
+  console.log(movies)
   return movies
 }
 

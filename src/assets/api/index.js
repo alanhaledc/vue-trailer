@@ -39,6 +39,6 @@ export default {
     return movieRequest.get('/list', { params: { type, year } })
   },
   getMovieDetail(id) {
-    return movieRequest.get('/:id', { params: { id } })
+    return movieRequest.get('/detail', { params: { id } })
   }
 }

@@ -8,7 +8,7 @@
       >
         <q-card>
           <q-card-media @click.native="playVideo(movie.url)" style="cursor: pointer">
-            <img :src="movie.poster" height="600">
+            <img v-lazy="movie.poster" height="600">
           </q-card-media>
           <q-card-title>
             {{movie.title}}

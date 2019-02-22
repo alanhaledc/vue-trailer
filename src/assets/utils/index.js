@@ -29,7 +29,6 @@ export const normalizeMovies = data => {
     }
     movies.push(movie)
   })
-  console.log(movies)
   return movies
 }
 

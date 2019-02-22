@@ -117,8 +117,6 @@ export default {
           this.deleteMovie(id)
             .then(res => {
               if (res.data.success) {
-                console.log(res)
-                console.log(res.data.success)
                 this.$q.notify({
                   message: '你删除了一部电影',
                   color: 'positive',

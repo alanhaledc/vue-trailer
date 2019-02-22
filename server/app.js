@@ -24,7 +24,11 @@ app.use(session(CONFIG, app))
 app.use(history())
 app.use(logger())
 app.use(bodyParser())
-app.use(serve(path.join(__dirname, './static')))
+app.use(
+  serve(path.join(__dirname, './static'), {
+    maxage: 1000 * 60 * 60 * 24
+  })
+)
 
 app.use(routers.routes()).use(routers.allowedMethods())
 

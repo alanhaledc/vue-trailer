@@ -26,7 +26,7 @@ app.use(logger())
 app.use(bodyParser())
 app.use(
   serve(path.join(__dirname, './static'), {
-    maxage: 1000 * 60 * 60 * 24
+    maxage: 1000 * 60 * 60 * 24 * 7
   })
 )
 

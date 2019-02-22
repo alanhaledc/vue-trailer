@@ -12,7 +12,7 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
           aria-label="Menu"
         >
-          <q-icon name="menu"/>
+          <q-icon name="menu" />
         </q-btn>
 
         <q-toolbar-title>
@@ -23,11 +23,11 @@
           v-model="selectTab"
         >
           <q-tab
-            v-for="(category, index) in categories"
+            v-for="category in categories"
             :key="category"
             slot="title"
             :label="category"
-            :name="'tab-'+ (index+1)"
+            :name="'tab-'+ category"
             @click.native="goCategory(category)"
           ></q-tab>
         </q-tabs>
@@ -54,7 +54,11 @@
           <q-item-main>{{year}}年上映</q-item-main>
         </q-item>
         <q-item class="q-mt-md">
-          <q-btn icon-right="send" color="teal" @click="$router.push('/admin/login')">后台登陆</q-btn>
+          <q-btn
+            icon-right="send"
+            color="teal"
+            @click="$router.push('/admin/login')"
+          >后台登陆</q-btn>
         </q-item>
       </q-list>
     </q-layout-drawer>
@@ -65,7 +69,7 @@
         enter-active-class="animated slideInLeft"
         leave-active-class="animated slideOutRight"
       >
-        <router-view :key="key"/>
+        <router-view :key="key" />
       </transition>
     </q-page-container>
   </q-layout>
@@ -79,14 +83,30 @@ export default {
       leftDrawerOpen: this.$q.platform.is.desktop,
       years: ['2018', '2019', '2020'],
       categories: [
-        '全部', '动作', '科幻', '惊悚', '喜剧', '冒险', '剧情', '奇幻', '古装', '犯罪', '动画', '爱情', '悬疑', '武侠', '运动'
-      ],
-      selectTab: 'tab-1'
+        '全部',
+        '动作',
+        '科幻',
+        '惊悚',
+        '喜剧',
+        '冒险',
+        '剧情',
+        '奇幻',
+        '古装',
+        '犯罪',
+        '动画',
+        '爱情',
+        '悬疑',
+        '武侠',
+        '运动'
+      ]
     }
   },
   computed: {
     key() {
       return this.$route.path
+    },
+    selectTab() {
+      return 'tab-' + this.$route.params.category
     }
   },
   methods: {

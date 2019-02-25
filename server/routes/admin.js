@@ -72,7 +72,7 @@ router.post('/login', async ctx => {
         }
         successResponse(ctx, match)
       } else {
-        failureResponse(ctx, 500, '用户名或者密码不正确')
+        failureResponse(ctx, 200, '用户名或者密码不正确')
       }
     }
   } catch (err) {

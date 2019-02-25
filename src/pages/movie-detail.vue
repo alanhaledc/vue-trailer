@@ -110,7 +110,7 @@ export default {
     this._getmovieData(this.id)
     setTimeout(() => {
       this.setPlayer()
-    }, 200)
+    }, 500)
   },
   /**
    * 同页面切换重新获取数据，并且重置播放器
@@ -118,11 +118,11 @@ export default {
   beforeRouteUpdate(to, from, next) {
     const id = to.params.id
     this._getmovieData(id)
+    if (this.player) {
+      this.player.destroy()
+    }
     setTimeout(() => {
-      if (this.player) {
-        this.player.destroy()
-        this.setPlayer()
-      }
+      this.setPlayer()
     }, 500)
     next()
   },

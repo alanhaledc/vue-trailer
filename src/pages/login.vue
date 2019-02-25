@@ -29,7 +29,11 @@
               @blur="$v.form.password.$touch"
             />
           </q-field>
-          <q-btn class="full-width" @click.native="OnLogin" color="primary">登录</q-btn>
+          <q-btn
+            class="full-width"
+            @click.native="OnLogin"
+            color="primary"
+          >登录</q-btn>
         </q-card>
       </q-page>
     </q-page-container>
@@ -37,7 +41,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+// import { mapActions } from 'vuex'
+import { login } from '../assets/request'
 import { required, minLength, email } from 'vuelidate/lib/validators'
 
 export default {
@@ -69,30 +74,28 @@ export default {
         this.$q.notify('请检查输入的内容')
         return
       }
-      this.login({
+      login({
         email: this.form.email,
         password: this.form.password
+      }).then(res => {
+        if (res.data.success) {
+          this.$router.push('/admin/movie/list')
+          this.$q.notify({
+            message: '登录成功',
+            color: 'positive',
+            icon: 'done',
+            position: 'top'
+          })
+        } else {
+          this.$q.notify({
+            message: res.data.msg,
+            color: 'negative',
+            icon: 'priority_high',
+            position: 'top'
+          })
+        }
       })
-        .then(res => {
-          if (res.data.success) {
-            this.$router.push('/admin/movie/list')
-            this.$q.notify({
-              message: '登录成功',
-              color: 'positive',
-              icon: 'done',
-              position: 'top'
-            })
-          } else {
-            this.$q.notify({
-              message: res.data.msg,
-              color: 'negative',
-              icon: 'priority_high',
-              position: 'top'
-            })
-          }
-        })
-    },
-    ...mapActions('admin', ['login'])
+    }
   }
 }
 </script>

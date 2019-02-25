@@ -7,8 +7,14 @@
         class="col-lg-3 col-md-6 col-sm-6 col-xs-12 q-mb-md"
       >
         <q-card>
-          <q-card-media @click.native="playVideo(movie.url)" style="cursor: pointer">
-            <img v-lazy="movie.poster" height="600">
+          <q-card-media
+            @click.native="playVideo(movie.url)"
+            style="cursor: pointer"
+          >
+            <img
+              v-lazy="movie.poster"
+              height="600"
+            >
           </q-card-media>
           <q-card-title>
             {{movie.title}}
@@ -19,9 +25,23 @@
           </q-card-main>
           <q-card-separator></q-card-separator>
           <q-card-actions>
-            <q-btn icon="history" flat color="positive">{{movie.update}}前更新</q-btn>
-            <q-btn icon="star" flat color="pink">{{movie.rate}}分</q-btn>
-            <q-btn rounded flat color="primary" @click.native="goDetail(movie._id)" icon="details">详情</q-btn>
+            <q-btn
+              icon="history"
+              flat
+              color="positive"
+            >{{movie.update}}前更新</q-btn>
+            <q-btn
+              icon="star"
+              flat
+              color="pink"
+            >{{movie.rate}}分</q-btn>
+            <q-btn
+              rounded
+              flat
+              color="primary"
+              @click.native="goDetail(movie._id)"
+              icon="details"
+            >详情</q-btn>
           </q-card-actions>
         </q-card>
       </q-item>
@@ -37,9 +57,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import 'dplayer/dist/DPlayer.min.css'
 import DPlayer from 'dplayer'
+import { getMovies } from '../assets/request'
+import { normalizeMovies } from '../assets/utils'
 
 export default {
   name: 'MovieList',
@@ -47,30 +68,35 @@ export default {
     return {
       opened: false,
       category: '',
-      year: ''
+      year: '',
+      movieList: []
     }
   },
-  computed: {
-    ...mapGetters('movie', ['movieList'])
+  created() {
+    this.category = this.$route.params.category
+    this.year = this.$route.params.year
+    this._getMovies()
   },
   beforeRouteUpdate(to, from, next) {
     this.category = to.params.category
     this.year = to.params.year
-    this.getMovies({
+    this._getMovies({
       type: this.category === '全部' ? null : this.category,
       year: this.year
     })
     next()
   },
-  created() {
-    this.category = this.$route.params.category
-    this.year = this.$route.params.year
-    this.getMovies({
-      type: this.category === '全部' ? '' : this.category,
-      year: this.year
-    })
-  },
   methods: {
+    _getMovies() {
+      getMovies({
+        type: this.category === '全部' ? '' : this.category,
+        year: this.year
+      }).then(res => {
+        if (res.data.success) {
+          this.movieList = normalizeMovies(res.data.data)
+        }
+      })
+    },
     playVideo(url) {
       this.opened = true
       if (!this.player) {
@@ -107,8 +133,7 @@ export default {
     },
     goDetail(id) {
       this.$router.push(`/detail/${id}`)
-    },
-    ...mapActions('movie', ['getMovies'])
+    }
   }
 }
 </script>

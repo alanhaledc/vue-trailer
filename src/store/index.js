@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import movie from './modules/movie'
-import admin from './modules/admin'
-
 Vue.use(Vuex)
 
 /*
@@ -12,12 +9,6 @@ Vue.use(Vuex)
  */
 
 export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
-    modules: {
-      movie,
-      admin
-    }
-  })
-
+  const Store = new Vuex.Store()
   return Store
 }

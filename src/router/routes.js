@@ -3,13 +3,17 @@ const routes = [
     path: '/',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      {path: '', redirect: 'list/全部'},
-      {path: 'list/:category', component: () => import('pages/movie-list.vue')},
-      {path: 'year/:year', component: () => import('pages/movie-list.vue')}
+      { path: '', redirect: 'list/全部' },
+      {
+        path: 'list/:category',
+        component: () => import('pages/movie-list.vue')
+      },
+      { path: 'year/:year', component: () => import('pages/movie-list.vue') }
     ]
   },
   {
     path: '/detail/:id',
+    props: true,
     component: () => import('pages/movie-detail.vue')
   },
   {

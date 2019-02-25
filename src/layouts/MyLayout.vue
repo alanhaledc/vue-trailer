@@ -27,7 +27,7 @@
             :key="category"
             slot="title"
             :label="category"
-            :name="'tab-'+ category"
+            :name="category"
             @click.native="goCategory(category)"
           ></q-tab>
         </q-tabs>
@@ -81,6 +81,7 @@ export default {
   data() {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop,
+      selectTab: '',
       years: ['2018', '2019', '2020'],
       categories: [
         '全部',
@@ -104,10 +105,10 @@ export default {
   computed: {
     key() {
       return this.$route.path
-    },
-    selectTab() {
-      return 'tab-' + this.$route.params.category
     }
+  },
+  created() {
+    this.selectTab = this.$route.params.category
   },
   methods: {
     goCategory(category) {
@@ -115,7 +116,6 @@ export default {
     },
     goYear(year) {
       this.$router.push(`/year/${year}`)
-      this.selectTab = 'tab-1'
     }
   }
 }

@@ -1,13 +1,20 @@
 <template>
   <q-layout>
     <q-page-container>
-      <q-page padding class="row">
+      <q-page
+        padding
+        class="row"
+      >
         <div class="col-9">
           <div id="video-player"></div>
         </div>
         <div class="col-3">
           <div class="text-center">
-            <q-btn class="q-headline" flat @click.native="goHome">
+            <q-btn
+              class="q-headline"
+              flat
+              @click.native="goHome"
+            >
               回到首页
             </q-btn>
           </div>
@@ -19,8 +26,16 @@
               style="width: 100%"
               no-pane-border
             >
-              <q-tab slot="title" name="tab-1" label="关于本片"></q-tab>
-              <q-tab slot="title" name="tab-2" label="同类电影"></q-tab>
+              <q-tab
+                slot="title"
+                name="tab-1"
+                label="关于本片"
+              ></q-tab>
+              <q-tab
+                slot="title"
+                name="tab-2"
+                label="同类电影"
+              ></q-tab>
               <q-tab-pane name="tab-1">
                 <q-list-header class="text-center q-title">
                   {{movieDetail.title}}
@@ -50,7 +65,11 @@
                   style="cursor: pointer"
                 >
                   <q-item-side>
-                    <img :src="movie.poster" width="60" height="90">
+                    <img
+                      :src="movie.poster"
+                      width="60"
+                      height="90"
+                    >
                   </q-item-side>
                   <q-item-main>
                     <q-item class="q-title">{{movie.title}}</q-item>
@@ -67,41 +86,57 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import 'dplayer/dist/DPlayer.min.css'
 import DPlayer from 'dplayer'
+import { getMovieDetail } from '../assets/request'
+import { normalizeMovieDetail, normalizeRelativeMovies } from '../assets/utils'
 
 export default {
   name: 'MovieDetail',
-  // props: {
-  //   id: String
-  // },
-  data() {
-    return {
-      selectTab: 'tab-1'
+  props: {
+    id: {
+      type: String
     }
   },
-  computed: {
-    ...mapGetters('movie', ['movieDetail', 'relativeMovies'])
-  },
-  /**
-   * 同页面切换重新获取数据，并且重置播放器
-   * @param to
-   * @param from
-   * @param next
-   */
-  beforeRouteUpdate(to, from, next) {
-    this.id = to.params.id
-    this.getMovieDetail(this.id)
-    this.setPlayer()
-    next()
+  data() {
+    return {
+      selectTab: 'tab-1',
+      movieDetail: {},
+      relativeMovies: []
+    }
   },
   created() {
     this.id = this.$route.params.id
-    this.getMovieDetail(this.id)
-    this.setPlayer()
+    this._getmovieData(this.id)
+    setTimeout(() => {
+      this.setPlayer()
+    }, 200)
+  },
+  /**
+   * 同页面切换重新获取数据，并且重置播放器
+   */
+  beforeRouteUpdate(to, from, next) {
+    const id = to.params.id
+    this._getmovieData(id)
+    setTimeout(() => {
+      if (this.player) {
+        this.player.destroy()
+        this.setPlayer()
+      }
+    }, 500)
+    next()
   },
   methods: {
+    _getmovieData(id) {
+      getMovieDetail(id).then(res => {
+        if (res.data.success) {
+          this.movieDetail = normalizeMovieDetail(res.data.data.movie)
+          this.relativeMovies = normalizeRelativeMovies(
+            res.data.data.relativeMovies
+          )
+        }
+      })
+    },
     goHome() {
       this.$router.push('/')
     },
@@ -109,19 +144,16 @@ export default {
       this.$router.push(`/detail/${id}`)
     },
     setPlayer() {
-      setTimeout(() => {
-        this.player = new DPlayer({
-          container: document.getElementById('video-player'),
-          screenshot: true,
-          video: {
-            url: this.movieDetail.url,
-            pic: this.movieDetail.pic,
-            thumbnails: this.movieDetail.pic
-          }
-        })
-      }, 200)
-    },
-    ...mapActions('movie', ['getMovieDetail'])
+      this.player = new DPlayer({
+        container: document.getElementById('video-player'),
+        screenshot: true,
+        video: {
+          url: this.movieDetail.url,
+          pic: this.movieDetail.pic,
+          thumbnails: this.movieDetail.pic
+        }
+      })
+    }
   }
 }
 </script>

@@ -6,9 +6,10 @@
   "author": "Hale",
   "license": "MIT",
   "scripts": {
-    "serve": "node app.js"
+    "serve": "cross-env NODE_ENV=production node app.js"
   },
   "dependencies": {
+    "cross-env": "^5.2.0",
     "koa": "^2.5.2",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",

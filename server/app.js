@@ -5,6 +5,9 @@ const history = require('koa2-connect-history-api-fallback')
 const bodyParser = require('koa-bodyparser')
 const session = require('koa-session')
 const path = require('path')
+const { failureResponse } = require('./utils')
+
+const isProd = process.env.NODE_ENV === 'production'
 
 const routers = require('./routes')
 require('./database/index')
@@ -19,7 +22,24 @@ const CONFIG = {
 }
 
 const app = new Koa()
+
 app.keys = ['vue koa trailer']
+
+app.use(async (ctx, next) => {
+  try {
+    await next()
+  } catch (err) {
+    console.log('error:', err.message)
+    if (err.message === '401') {
+      failureResponse(ctx, 401, '没有权限，请重新登录')
+    } else {
+      isProd
+        ? failureResponse(ctx, 500, '服务器内部错误')
+        : failureResponse(ctx, 500, err.message)
+    }
+  }
+})
+
 app.use(session(CONFIG, app))
 app.use(history())
 app.use(logger())

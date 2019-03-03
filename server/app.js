@@ -30,7 +30,7 @@ app.use(async (ctx, next) => {
     await next()
   } catch (err) {
     console.log('error:', err.message)
-    if (err.message === '401') {
+    if (err.status === 401) {
       failureResponse(ctx, 401, '没有权限，请重新登录')
     } else {
       isProd

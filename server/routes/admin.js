@@ -21,7 +21,7 @@ router.get('/movie/list', async ctx => {
     const movies = await Movie.find(query)
     successResponse(ctx, movies)
   } else {
-    throw new Error('401')
+    ctx.throw(401)
   }
 })
 
